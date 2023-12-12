@@ -20,7 +20,7 @@ public class FirefoxLaunchTest {
     }
 
     @Test
-    void getUrlEndpoint() {
+    public void getUrlEndpoint() {
         driver.get("https://rahulshettyacademy.com");
     }
 
