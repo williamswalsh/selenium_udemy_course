@@ -1,9 +1,10 @@
-package ie.williamswalsh;
+package ie.williamswalsh.locators;
 
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.time.Duration;
 
@@ -58,13 +59,16 @@ public class LocatorsTest {
     }
 
     @Test
-    void doGoodLogin() {
+    void doGoodLogin() throws InterruptedException {
+        String username = "rahul";
+        String password = LocatorsTest.getPassword();
+
         driver.get("https://rahulshettyacademy.com/locatorspractice/");
         driver.findElement(By.id("inputUsername"))
-                .sendKeys("rahul");
+                .sendKeys(username);
 
         driver.findElement(By.cssSelector("input[placeholder='Password']"))
-                .sendKeys("rahulshettyacademy");
+                .sendKeys(password);
 
         driver.findElement(By.cssSelector("#chkboxOne"))
                         .click();
@@ -76,13 +80,73 @@ public class LocatorsTest {
 //                .click();
 //      OR
         driver.findElement(By.xpath("//button[contains(@class, 'submit')]")).click();
+
+//      Doesn't work -> driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        Thread.sleep(3000);
+
+        String loggedInText = driver.findElement(By.tagName("p")).getText();
+
+        assertEquals("You are successfully logged in.", loggedInText);
+
+        String salutation = "Hello " + username + ",";
+        String actualSalutation = driver.findElement(By.xpath("//div[@class='login-container']/h2")).getText();
+        assertEquals(salutation, actualSalutation);
+
+        driver.findElement(By.cssSelector("button.logout-btn")).click();
+        // Could also use xpath:"//button[text()='Log Out']"
     }
 
     @Test
-    void findByTest() throws InterruptedException {
+    void doGoodLoginInFirefox() throws InterruptedException {
+        System.setProperty("webdriver.gecko.driver", "/Users/legoman/code/selenium/drivers/geckodriver");
+        driver = new FirefoxDriver(); // Overriding chromedriver - not very clear approach.
+
+        String username = "rahul";
+        String password = LocatorsTest.getPassword();
+
+        driver.get("https://rahulshettyacademy.com/locatorspractice/");
+        driver.findElement(By.id("inputUsername"))
+                .sendKeys(username);
+
+        driver.findElement(By.cssSelector("input[placeholder='Password']"))
+                .sendKeys(password);
+
+        driver.findElement(By.cssSelector("#chkboxOne"))
+                .click();
+
+        driver.findElement(By.cssSelector("#chkboxTwo"))
+                .click();
+
+//        driver.findElement(By.className("signInBtn"))
+//                .click();
+//      OR
+        driver.findElement(By.xpath("//button[contains(@class, 'submit')]")).click();
+
+//      Doesn't work -> driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+
+        Thread.sleep(3000);
+
+        String loggedInText = driver.findElement(By.tagName("p")).getText();
+
+        assertEquals("You are successfully logged in.", loggedInText);
+
+        String salutation = "Hello " + username + ",";
+        String actualSalutation = driver.findElement(By.xpath("//div[@class='login-container']/h2")).getText();
+        assertEquals(salutation, actualSalutation);
+
+        driver.findElement(By.cssSelector("button.logout-btn")).click();
+        // Could also use xpath:"//button[text()='Log Out']"
+    }
+
+
+    @Test
+    void forgotPasswordFlow() throws InterruptedException {
         driver.get("https://rahulshettyacademy.com/locatorspractice/");
         driver.findElement(By.linkText("Forgot your password?")).click();
 
+//        Wait for something to show on page for 5 seconds - doesn't work if element is already on page
+//        just temporarily hidden.
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
 
         // Xpath
@@ -112,12 +176,37 @@ public class LocatorsTest {
         Thread.sleep(1000);
         driver.findElement(By.cssSelector(".reset-pwd-btn"))
                 .click();
+
+//        For css selector a space represents a parent-child relationship.
         String temporaryPasswordMessage = driver.findElement(By.cssSelector("form p"))
                 .getText();
         assertEquals("Please use temporary password 'rahulshettyacademy' to Login.", temporaryPasswordMessage);
     }
 
-//
+//  Get password using reset password flow.
+    private static String getPassword() throws InterruptedException {
+        driver.get("https://rahulshettyacademy.com/locatorspractice/");
+        driver.findElement(By.linkText("Forgot your password?")).click();
+
+        driver.findElement(By.xpath("//input[@placeholder='Name']"))
+                .sendKeys("Elliot");
+
+        driver.findElement(By.xpath("//input[@placeholder='Email']"))
+                .sendKeys("mr_robot@gmail.com");
+
+        driver.findElement(By.xpath("//form/input[3]"))
+                .sendKeys("9864353253");
+
+        Thread.sleep(1000);
+        driver.findElement(By.cssSelector(".reset-pwd-btn"))
+                .click();
+
+        String infoMsg = driver.findElement(By.xpath("//form/p[@class='infoMsg']")).getText();
+        return infoMsg.split("'")[1];
+    }
+
+
+
 //    @AfterAll
 //    static void tearDown() {
 //        // Only closes the current window

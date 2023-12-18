@@ -1,4 +1,4 @@
-package ie.williamswalsh;
+package ie.williamswalsh.browser_setup;
 
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;

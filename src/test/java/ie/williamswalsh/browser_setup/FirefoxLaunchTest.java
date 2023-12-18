@@ -1,23 +1,26 @@
-package ie.williamswalsh;
+package ie.williamswalsh.browser_setup;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class EdgeLaunchTest {
+/**
+ * Firefox uses the Gecko driver.
+ */
+public class FirefoxLaunchTest {
 
     private static WebDriver driver;
 
     @BeforeAll
     static void setUp() {
-        System.setProperty("webdriver.edge.driver", "/Users/legoman/code/selenium/drivers/edge_driver_m1_mac");
-        driver = new EdgeDriver();
+        System.setProperty("webdriver.gecko.driver", "/Users/legoman/code/selenium/drivers/geckodriver");
+        driver = new FirefoxDriver();
     }
 
     @Test
-    void getUrlEndpoint() {
+    public void getUrlEndpoint() {
         driver.get("https://rahulshettyacademy.com");
     }
 
