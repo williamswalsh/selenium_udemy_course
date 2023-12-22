@@ -123,8 +123,6 @@ String projectPath = System.getProperty("user.dir");
   String val = "return document.getElementById(\"hiddentext\").value;";
   String text=(String) js.executeScript(val);</p></div></div>
   ```
-- AutoIT?
-
 - PageFactory.initElements(driver, this);
   @FindBy(id='myBtn')
   WebElement fancyBtn; -> automatically associates element -> Page Object Model classes.
@@ -135,8 +133,8 @@ landingPage.goto();
 public void goto(){
     d.get("LANDING_PAGE_URL");        
 }
-```  
-  No Page Object should have asserts
+```
+- Page Object should not have asserts.
 
 - Relative Locators
   - driver.findElement(withTagName("").above(webElement));
@@ -171,30 +169,10 @@ public void goto(){
 - mvn test -Dbrowser=firefox_win|firefox_mac_os|chrome_mac_os|chrome_win|safari_mac_os|safari_win|
 - mvn test -P<PROFILE> - can be used to group tests
 
-
-
 #### Refreshing the page
-- d.navigate().refresh();
-  d.navigate().refresh();
-  d.navigate().to(d.getCurrentUrl());
-  d.findElement(***).sendKeys(KEYS.F5)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-NOTE: Each browser contains a separate browser driver.??? 
+```java
+d.navigate().refresh();  
+d.navigate().refresh();  
+d.navigate().to(d.getCurrentUrl());  
+d.findElement(***).sendKeys(KEYS.F5);
+```
