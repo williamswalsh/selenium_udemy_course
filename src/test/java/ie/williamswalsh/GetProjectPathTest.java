@@ -1,15 +1,15 @@
-package ie.williamswalsh.waits;
+package ie.williamswalsh;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.time.temporal.ChronoUnit;
-import java.util.concurrent.TimeUnit;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ImplicitWaitTest {
+public class GetProjectPathTest {
 
     private static WebDriver driver;
 
@@ -17,11 +17,12 @@ public class ImplicitWaitTest {
     static void setUp() {
         System.setProperty("webdriver.chrome.driver", "/Users/legoman/code/selenium/drivers/chromedriver-mac-arm64/chromedriver");
         driver = new ChromeDriver();
-
     }
+
     @Test
-    void name() {
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.of(ChronoUnit.SECONDS));
+    void fillOutAlertFormTest() {
+        String projectPath = System.getProperty("user.dir");
+        System.out.println(projectPath);
     }
 
     @AfterAll

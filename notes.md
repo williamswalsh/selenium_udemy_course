@@ -107,17 +107,77 @@
 - Popular for interview questions.
 - Must build our own predicate functions.
 
+### Get Project Path
+- works for all OSes:
+```java
+String projectPath = System.getProperty("user.dir");
+```
+
+#### Need to investigate:
+- following sibling method in xpath 
+  How to get a sibling from a current element.
+  e.g. //tr[td='Color Digest'][2]/td/following-sibling::td[1]
+- JavascriptExecutor
+  Can be used to retrieve a value from an element, by:
+  ```java
+  String val = "return document.getElementById(\"hiddentext\").value;";
+  String text=(String) js.executeScript(val);</p></div></div>
+  ```
+- AutoIT?
+
+- PageFactory.initElements(driver, this);
+  @FindBy(id='myBtn')
+  WebElement fancyBtn; -> automatically associates element -> Page Object Model classes.
+  N.B: PageFactory Design Pattern
+- PageObject should not hold any data - only page structure & actions(userLogin()).
+```java
+landingPage.goto();
+public void goto(){
+    d.get("LANDING_PAGE_URL");        
+}
+```  
+  No Page Object should have asserts
+
+- Relative Locators
+  - driver.findElement(withTagName("").above(webElement));
+  - above(), below(), toLeftOf(), toRightOf()
+  - with(locator).above(ele)
+- BrowserStack - executing in different OS browsers.
+- Chrome Dev Tools: https://chromedevtools.github.io/devtools-protocol/
+  Can manipulate the browser using the API.
+- Apache POI - excel data(.xlsx extension) loading to test - Data Driven Test
+- NB: JUNIT dataprovider
+  - Integrating Junit dataprovider + excel data
+- Windows Authenticate prompt alert
+  - not html based
+  - http://USERNAME:PASSWORD@URL
+  - d.get("http://admin:admin@the-internet.herokuapp.com/"
+  - d.switchTo().alert().
+- Setup Selenium GRID - Node + Worker
+  - HUB: localhost:4444
+  - Uses drivers in same folder as grid.jar
+  - NODE: java -jar <JAR> node --detect-drivers true --publish-events tcp://IP:PORT --subscribe-events tcp://IP:PORT
+  - HUB: java -jar <JAR> hub --detect-drivers true
+  - WebDriver d = new RemoteWebDriver(new URL("http://<HUB_IP>:<HUB_PORT>), desiredCapabilities);
+  - DesiredCapabilities - Browser & platform details.
+- 20-25
+- Selenium Reporting
+- Can monitor browser api calls sent to BE svc - Dev Tools Network Events API
+- ThreadLocal - Parallel test runs
+- Junit - Retry Mechanism to overcome Flaky tests.
+- Jenkins
+  - mvn test -Dbrowser=$browserName - browserName parameter "Build with Parameters" 
+  - Build Selenium test periodically - regex
+- mvn test -Dbrowser=firefox_win|firefox_mac_os|chrome_mac_os|chrome_win|safari_mac_os|safari_win|
+- mvn test -P<PROFILE> - can be used to group tests
 
 
 
-
-
-
-
-
-
-
-
+#### Refreshing the page
+- d.navigate().refresh();
+  d.navigate().refresh();
+  d.navigate().to(d.getCurrentUrl());
+  d.findElement(***).sendKeys(KEYS.F5)
 
 
 
